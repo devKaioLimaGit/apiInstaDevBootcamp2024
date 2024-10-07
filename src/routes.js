@@ -1,10 +1,11 @@
 const {Router} = require("express");
-const Users = require("./apps/models/Users");
+const schemaValidator = require("./apps/middlewares/schemaValidator")
 const UserController = require("./apps/controllers/UsersController");
+const userSchema = require("./schemas/create.user.schema.json")
 const routes = new Router();
 
 
-routes.post("/users", UserController.create);
+routes.post("/users", schemaValidator(userSchema) , UserController.create);
 
 routes.get("/health", (req,res)=>{
     return res.status(200).json({message: "Connected with in port 3000!"})

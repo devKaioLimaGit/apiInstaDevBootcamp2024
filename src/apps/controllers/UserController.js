@@ -10,7 +10,12 @@ class UserController {
     }
 
     const user = await Users.create(req.body);
-    return res.status(200).send({ user: user });
+    
+    if(!user){
+      return res.status(200).json({ message: "Failed to create a user!" });
+
+    }
+    return res.status(200).send({ message: "User created!" });
   }
 }
 

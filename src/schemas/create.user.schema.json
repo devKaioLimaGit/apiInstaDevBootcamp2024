@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateUserSchema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "user_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "minLength": 1
+    },
+    "avatar": {
+      "type": "string",
+      "minLength": 0
+    },
+    "bio": {
+      "type": "string",
+      "minLength": 0
+    },
+    "gender": {
+      "type": "string",
+      "enum": ["male", "female", "other", "not_specified"],
+      "minLength": 1
+    },
+    "password": {
+      "type": "string",
+      "minLength": 6
+    }
+  },
+  "required": ["name", "user_name", "email"]
+}
