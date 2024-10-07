@@ -1,0 +1,12 @@
+const { resolve } = require('path');
+
+module.exports = {
+  // Caminho absoluto para o arquivo de configuração do banco de dados (db.js)
+  config: resolve(__dirname, 'src', 'configs', 'db.js'),
+
+  // Caminho absoluto para os modelos da aplicação
+  'models-path': resolve(__dirname, 'src', 'apps', 'models'),
+
+  // Caminho absoluto para as migrações do banco de dados
+  'migrations-path': resolve(__dirname, 'src', 'database', 'migrations'),
+};
