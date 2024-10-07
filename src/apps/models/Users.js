@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const { Model } = require("sequelize");
+const bcryptjs = require("bcryptjs")
 
 class Users extends Model {
   static init(sequelize) {
@@ -20,6 +21,11 @@ class Users extends Model {
         timestamps: true,    // Caso você queira que a tabela tenha os campos 'created_at' e 'updated_at'
       }
     );
+    this.addHook("beforeSave", async (user)=>{
+      if(user.password){
+        user.password_hash = await bcryptjs.hash(user.password, 8);
+      }
+    });
     return this;
   }
 }
