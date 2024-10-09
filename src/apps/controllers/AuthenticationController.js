@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const Users = require("../models/Users");
 const { Op } = require("sequelize");
+const {encrypt} = require("../../utils/crypt")
 
 class AuthenticationController {
   async authenticate(req, res) {
@@ -8,12 +9,15 @@ class AuthenticationController {
 
     const conditions = [];
 
-    if (email) {
-      conditions.push({ email: email });
-    }
-
-    if (user_name) {
-      conditions.push({ user_name: user_name });
+    if (email || user_name) {
+        if (email) {
+            conditions.push({ email: email });
+        }
+        if (user_name) {
+            conditions.push({ user_name: user_name });
+        }
+    } else {
+        return res.status(401).json({ error: "We need an email or username" });
     }
 
     const user = await Users.findOne({
@@ -32,8 +36,13 @@ class AuthenticationController {
 
     const { id, user_name: userName } = user;
 
-    const token = jwt.sign({ id, userName }, process.env.HASH_BCRYPT, {
-      expiresIn: "1h",
+    const idEncrypt = encrypt(id);
+
+    const newId = `${idEncrypt.iv}: ${idEncrypt.content}`;
+
+
+    const token = jwt.sign({ newId}, process.env.HASH_BCRYPT, {
+      expiresIn: process.env.EXPIRE_IN,
     });
 
     return res
