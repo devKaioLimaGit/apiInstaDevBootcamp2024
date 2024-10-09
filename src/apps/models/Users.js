@@ -28,6 +28,10 @@ class Users extends Model {
     });
     return this;
   }
+
+  checkPassword(passaword){
+    return bcryptjs.compare(passaword, this.password_hash)
+  }
 }
 
 module.exports = Users;  // Aqui estamos exportando a classe Users, não a instância.
